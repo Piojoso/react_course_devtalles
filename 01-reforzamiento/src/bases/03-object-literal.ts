@@ -1,5 +1,15 @@
+interface Address  {
+    zipcode: number
+}
 
-const ironman = {
+interface Person {
+    firstName: string;
+    lastName: string;
+    age: number;
+    address: Address
+}
+
+const ironman: Person = {
     firstName: "Tony",
     lastName: "Stark",
     age: 45,
