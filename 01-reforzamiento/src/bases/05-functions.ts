@@ -6,9 +6,7 @@ const welcomeMessage = giveWelcome('Goku')
 
 console.log(welcomeMessage);
 
-const giveWelcome2 = (name: string): string => {
-    return `Welcome ${name}`
-}
+const giveWelcome2 = (name: string): string => `Welcome ${name}`
 const welcomeMessage2 = giveWelcome2('Vegetta')
 
 console.log(welcomeMessage2);
@@ -27,3 +25,6 @@ interface User { uid: string, username: string }
 const getUser2 = ():User => ({uid: 'ABC-123', username: 'username'})
 
 console.log(getUser2())
+
+const myNumbers: number[] = [1, 2, 3, 4, 5]
+myNumbers.forEach(console.log)
