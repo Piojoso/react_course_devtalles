@@ -11,7 +11,8 @@ import './style.css'
 // import './bases/08-imp-exp'
 // import './bases/hw-getHeroesByOwner'
 // import { getHeroesByOwner } from './bases/hw-getHeroesByOwner';
-import './bases/09-promises'
+// import './bases/09-promises'
+import './bases/10-fetch-api'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
