@@ -7,7 +7,8 @@ import './style.css'
 // import './bases/05-functions'
 // import './bases/06-obj-destructuring'
 // import './bases/07-array-destructuring'
-import './bases/hw-useState'
+// import './bases/hw-useState'
+import './bases/08-imp-exp'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
