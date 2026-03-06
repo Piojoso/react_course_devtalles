@@ -8,10 +8,14 @@ import './style.css'
 // import './bases/06-obj-destructuring'
 // import './bases/07-array-destructuring'
 // import './bases/hw-useState'
-import './bases/08-imp-exp'
+// import './bases/08-imp-exp'
+import './bases/hw-getHeroesByOwner'
+import { getHeroesByOwner } from './bases/hw-getHeroesByOwner';
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
     <h1> Hola Mundo </h1>
   </div>
 `
+
+console.log(getHeroesByOwner('Marvel'));

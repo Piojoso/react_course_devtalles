@@ -1,4 +1,4 @@
-type Owner = 'Marvel' | 'DC'
+export type Owner = 'Marvel' | 'DC'
 
 // Not recommended to be runned on node directly with the new Typescript runner.
 // enum Owner {
