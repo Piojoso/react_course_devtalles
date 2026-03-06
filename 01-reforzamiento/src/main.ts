@@ -12,7 +12,8 @@ import './style.css'
 // import './bases/hw-getHeroesByOwner'
 // import { getHeroesByOwner } from './bases/hw-getHeroesByOwner';
 // import './bases/09-promises'
-import './bases/10-fetch-api'
+// import './bases/10-fetch-api'
+import './bases/11-async-await'
 
 document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
   <div>
