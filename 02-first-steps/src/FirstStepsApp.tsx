@@ -5,7 +5,10 @@ export function FirstStepsApp() {
     <>
       <h1>Shopping Cart</h1>
 
-      <ItemCounter />
+      {/* Please Gave!!, Allow us to purchase them here in LATAM */}
+      <ItemCounter name="Steam Deck" />
+      <ItemCounter name="Steam Machine" />
+      <ItemCounter name="Steam Controller" quantity={2} />
     </>
   );
 }
