@@ -13,10 +13,15 @@ const sectionStyle: CSSProperties = {
 };
 
 export const ItemCounter = ({ name, quantity = 1 }: Props) => {
+  const handleClick = () => {
+    console.log(`click on ${name}`);
+  };
+
   return (
     <section style={sectionStyle}>
       <span style={{ width: 150 }}>{name}</span>
-      <button>+1</button>
+
+      <button onClick={handleClick}>+1</button>
       <span>{quantity}</span>
       <button>-1</button>
     </section>
