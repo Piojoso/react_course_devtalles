@@ -49,4 +49,18 @@ describe('ItemCounter.tsx', () => {
 
     expect(screen.getByText(quantity)).toBeDefined();
   });
+
+  test('should not change when count is 1', () => {
+    // Originally in the course, the span with the name of the item changed if
+    // it only has one item. I didn't do that, so mine, wont change. But I'll
+    // try to test it any way.
+
+    const quantity = 1;
+    const itemName = 'itemName';
+    render(<ItemCounter name={itemName} quantity={quantity} />);
+
+    const itemNameElement = screen.getByText(itemName);
+
+    expect(itemNameElement.style.color).toBe('');
+  });
 });
