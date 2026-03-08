@@ -1,0 +1,14 @@
+.itemCounter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.itemName {
+  width: 150px;
+}
+
+.colorRed {
+  color: red;
+}
