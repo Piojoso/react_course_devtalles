@@ -1,0 +1,25 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`MyAwesomeApp.tsx > should match snapshot 1`] = `
+<div>
+  <h1
+    data-testid="firstname-heading"
+  >
+    Leonel
+  </h1>
+  <h3>
+    Bongiovanni
+  </h3>
+  <p>
+    Portal 2, Hollow Knight, Need for speed Underground 2
+  </p>
+  <h1>
+    Activo
+  </h1>
+  <p
+    style="background-color: rgb(250, 250, 250); border-radius: 10px; padding: 10px; margin-top: 30px;"
+  >
+    {"zipCode":"abc123","country":"Argentina"}
+  </p>
+</div>
+`;

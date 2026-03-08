@@ -22,4 +22,10 @@ describe('MyAwesomeApp.tsx', () => {
 
     expect(h1.innerHTML).toBe('Leonel');
   });
+
+  test('should match snapshot', () => {
+    const { container } = render(<MyAwesomeApp />);
+
+    expect(container).toMatchSnapshot();
+  });
 });
