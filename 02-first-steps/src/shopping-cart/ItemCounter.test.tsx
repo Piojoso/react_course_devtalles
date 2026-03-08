@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, test } from 'vitest';
 import { ItemCounter } from './ItemCounter';
 
@@ -19,5 +19,34 @@ describe('ItemCounter.tsx', () => {
 
     const itemNameElement = screen.getByText(quantity);
     expect(itemNameElement).toBeDefined();
+  });
+
+  test('should increase count when +1 is pressed', () => {
+    render(<ItemCounter name="itemName" quantity={1} />);
+    const [addBtn] = screen.getAllByRole('button');
+
+    fireEvent.click(addBtn);
+
+    expect(screen.getByText('2')).toBeDefined();
+  });
+
+  test('should decrease count when -1 is pressed', () => {
+    const quantity = 5;
+    render(<ItemCounter name="itemName" quantity={quantity} />);
+    const [, subBtn] = screen.getAllByRole('button');
+
+    fireEvent.click(subBtn);
+
+    expect(screen.getByText(`${quantity - 1}`)).toBeDefined();
+  });
+
+  test("shouldn't decrease count when -1 is pressed and quantity is 1", () => {
+    const quantity = 1;
+    render(<ItemCounter name="itemName" quantity={quantity} />);
+    const [, subBtn] = screen.getAllByRole('button');
+
+    fireEvent.click(subBtn);
+
+    expect(screen.getByText(quantity)).toBeDefined();
   });
 });
