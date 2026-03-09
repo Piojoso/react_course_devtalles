@@ -30,6 +30,12 @@ export const GifsApp = () => {
     setGifs(gifs);
   };
 
+  const handleGetGifUrl = (url: string): string => {
+    navigator.clipboard.writeText(url);
+
+    return "Copied!";
+  };
+
   return (
     <>
       {/* Header */}
@@ -48,7 +54,7 @@ export const GifsApp = () => {
       />
 
       {/* Gifs */}
-      <GifList gifs={gifs} />
+      <GifList gifs={gifs} onGetGifUrl={handleGetGifUrl} />
     </>
   );
 };
