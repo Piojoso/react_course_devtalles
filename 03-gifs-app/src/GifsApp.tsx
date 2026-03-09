@@ -17,10 +17,12 @@ export const GifsApp = () => {
   };
 
   const handleSearch = (searchedTerm: string) => {
-    if (searchedTerm === "") return;
-    if (previousSearches.find((ps) => ps === searchedTerm)) return;
+    searchedTerm = searchedTerm.trim().toLowerCase();
 
-    setPreviousSearches(previousSearches.concat(searchedTerm));
+    if (searchedTerm === "") return;
+    if (previousSearches.includes(searchedTerm)) return;
+
+    setPreviousSearches([searchedTerm, ...previousSearches].splice(0, 5));
   };
 
   return (
