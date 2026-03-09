@@ -16,6 +16,12 @@ export const GifsApp = () => {
     console.log({ searchedTerm });
   };
 
+  const handleSearch = (searchedTerm: string) => {
+    if (previousSearches.find((ps) => ps === searchedTerm)) return;
+
+    setPreviousSearches(previousSearches.concat(searchedTerm));
+  };
+
   return (
     <>
       {/* Header */}
@@ -25,7 +31,7 @@ export const GifsApp = () => {
       />
 
       {/* Search */}
-      <SearchBar placeholder="Buscar gifs" />
+      <SearchBar placeholder="Buscar gifs" onSearch={handleSearch} />
 
       {/* Busquedas previas */}
       <PreviousSearches
