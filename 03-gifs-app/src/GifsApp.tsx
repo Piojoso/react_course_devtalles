@@ -1,17 +1,17 @@
 import { useState } from "react";
+
 import { CustomHeader } from "./common/components/CustomHeader";
 import { SearchBar } from "./common/components/SearchBar";
 import { GifList } from "./gifs/components/GifList";
 import { PreviousSearches } from "./gifs/components/PreviousSearches";
-import { mockGifs } from "./mock-data/gifs.mock";
+
+import type { Gif } from "./gifs/interfaces/gif.interface";
 import { getGifsByQuery } from "./gifs/actions/get-gifs-by-query";
 
 export const GifsApp = () => {
-  const [previousSearches, setPreviousSearches] = useState([
-    "hollow knight",
-    "factorio",
-    "marvel rivals",
-  ]);
+  const [gifs, setGifs] = useState<Gif[]>([]);
+
+  const [previousSearches, setPreviousSearches] = useState<string[]>([]);
 
   const handlePreviousSerchesClick = (searchedTerm: string) => {
     console.log({ searchedTerm });
@@ -27,7 +27,7 @@ export const GifsApp = () => {
 
     const gifs = await getGifsByQuery(searchedTerm);
 
-    console.log({ gifs });
+    setGifs(gifs);
   };
 
   return (
@@ -48,7 +48,7 @@ export const GifsApp = () => {
       />
 
       {/* Gifs */}
-      <GifList gifs={mockGifs} />
+      <GifList gifs={gifs} />
     </>
   );
 };
