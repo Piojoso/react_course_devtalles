@@ -17,6 +17,7 @@ export const GifsApp = () => {
   };
 
   const handleSearch = (searchedTerm: string) => {
+    if (searchedTerm === "") return;
     if (previousSearches.find((ps) => ps === searchedTerm)) return;
 
     setPreviousSearches(previousSearches.concat(searchedTerm));
