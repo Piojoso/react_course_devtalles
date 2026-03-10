@@ -1,18 +1,20 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Gif } from "../interfaces/gif.interface";
 import { getGifsByQuery } from "../actions/get-gifs-by-query";
 
 type CachedGif = Record<string, Gif[]>;
 
-const gifCache: CachedGif = {};
+// const gifCache: CachedGif = {};
 
 export const useGifs = () => {
   const [gifs, setGifs] = useState<Gif[]>([]);
   const [previousSearches, setPreviousSearches] = useState<string[]>([]);
 
+  const gifCache = useRef<CachedGif>({});
+
   const loadFromCache = (term: string): boolean => {
-    if (gifCache[term]) {
-      setGifs(gifCache[term]);
+    if (gifCache.current[term]) {
+      setGifs(gifCache.current[term]);
 
       return true;
     }
@@ -41,7 +43,7 @@ export const useGifs = () => {
 
     setGifs(gifs);
 
-    gifCache[searchedTerm] = gifs;
+    gifCache.current[searchedTerm] = gifs;
   };
 
   const handleGetGifUrl = (url: string): string => {
