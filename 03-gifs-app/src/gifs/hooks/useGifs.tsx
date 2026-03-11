@@ -34,10 +34,11 @@ export const useGifs = () => {
     searchedTerm = searchedTerm.trim().toLowerCase();
 
     if (searchedTerm === "") return;
-    if (previousSearches.includes(searchedTerm)) return;
     if (loadFromCache(searchedTerm)) return;
 
-    setPreviousSearches([searchedTerm, ...previousSearches].splice(0, 5));
+    if (!previousSearches.includes(searchedTerm)) {
+      setPreviousSearches([searchedTerm, ...previousSearches].splice(0, 5));
+    }
 
     const gifs = await getGifsByQuery(searchedTerm);
 
