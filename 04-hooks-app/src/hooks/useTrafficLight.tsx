@@ -47,8 +47,12 @@ export const useTrafficLight = ({
     // Props
     light,
     countdown,
+    colorClasses,
 
     // Methods
-    colorClasses,
+    percentage: (countdown / 5) * 100,
+    redLight: light === "red" ? colorClasses.red : "bg-gray-500",
+    yellowLight: light === "yellow" ? colorClasses.yellow : "bg-gray-500",
+    greenLight: light === "green" ? colorClasses.green : "bg-gray-500",
   };
 };
