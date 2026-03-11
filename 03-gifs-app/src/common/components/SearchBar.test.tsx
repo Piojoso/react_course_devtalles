@@ -28,4 +28,41 @@ describe("SearchBar.tsx", () => {
       expect(onQuery).toHaveBeenCalledWith(inputValue);
     });
   });
+
+  test("should call only once with the last value (debounce)", async () => {
+    const onQuery = vi.fn();
+    render(<SearchBar onSearch={onQuery} />);
+
+    const inputElement = screen.getByRole("textbox");
+    fireEvent.change(inputElement, { target: { value: "t" } });
+    fireEvent.change(inputElement, { target: { value: "te" } });
+    fireEvent.change(inputElement, { target: { value: "tes" } });
+    fireEvent.change(inputElement, { target: { value: "test" } });
+
+    await waitFor(() => {
+      expect(onQuery).toHaveBeenCalledWith("test");
+      expect(onQuery).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  test("should call onQuery when button clicked with the input value", () => {
+    const onQuery = vi.fn();
+    render(<SearchBar onSearch={onQuery} />);
+
+    const inputElement = screen.getByRole("textbox");
+    fireEvent.change(inputElement, { target: { value: "test" } });
+
+    const buttonElement = screen.getByRole("button");
+    fireEvent.click(buttonElement);
+
+    expect(onQuery).toHaveBeenCalledTimes(1);
+    expect(onQuery).toHaveBeenCalledWith("test");
+  });
+
+  test("should the input has the correct placeholder value", () => {
+    const placeholderText = "placeholder";
+    render(<SearchBar onSearch={() => {}} placeholder={placeholderText} />);
+
+    expect(screen.getByPlaceholderText(placeholderText)).toBeDefined();
+  });
 });
