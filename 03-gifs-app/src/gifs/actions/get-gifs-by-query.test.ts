@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from "vitest";
+import { beforeEach, describe, expect, test, vi } from "vitest";
 import AxiosMockAdapter from "axios-mock-adapter";
 
 import { getGifsByQuery } from "./get-gifs-by-query";
@@ -47,17 +47,13 @@ describe("get-gifs-by-query.ts", () => {
     const gifs = await getGifsByQuery("");
 
     expect(gifs.length).toBe(0);
-
-    // gifs.forEach((gif) => {
-    //   expect(typeof gif.id).toBe("string");
-    //   expect(typeof gif.title).toBe("string");
-    //   expect(typeof gif.url).toBe("string");
-    //   expect(typeof gif.width).toBe("number");
-    //   expect(typeof gif.height).toBe("number");
-    // });
   });
 
   test("should handle error when the API returns an error", async () => {
+    const consoleErrorSpy = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => {});
+
     giphyApiMock
       .onGet("/search")
       .reply(400, { data: { message: "Bad Request" } });
@@ -65,5 +61,7 @@ describe("get-gifs-by-query.ts", () => {
     const gifs = await getGifsByQuery("Hollow Knight");
 
     expect(gifs.length).toBe(0);
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.anything());
   });
 });
