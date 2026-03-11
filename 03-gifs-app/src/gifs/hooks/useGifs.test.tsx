@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, onTestFinished, test, vi } from "vitest";
+import { afterEach, describe, expect, test, vi } from "vitest";
 import { act, renderHook } from "@testing-library/react";
 
 import { useGifs } from "./useGifs";
