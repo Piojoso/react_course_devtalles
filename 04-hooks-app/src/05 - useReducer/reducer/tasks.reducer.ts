@@ -16,12 +16,21 @@ export type TaskAction =
   | { type: "TOGGLE_TODO"; payload: { id: number } }
   | { type: "REMOVE_TODO"; payload: { id: number } };
 
-export const getTaskInitialState = (): TaskState => ({
-  todos: [],
-  lenght: 0,
-  completed: 0,
-  pending: 0,
-});
+export const getTaskInitialState = (): TaskState => {
+  const lsState = localStorage.getItem("tasks-state");
+
+  if (lsState) {
+    // ! TAKE CARE: It could have been manipulated
+    return JSON.parse(lsState);
+  }
+
+  return {
+    todos: [],
+    lenght: 0,
+    completed: 0,
+    pending: 0,
+  };
+};
 
 export const taskReducer = (
   state: TaskState,
