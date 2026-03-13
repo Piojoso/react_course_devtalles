@@ -62,7 +62,16 @@ export const taskReducer = (
 
       const newTodoList = state.todos.filter((todo) => todo.id !== id);
 
-      return { ...state, todos: newTodoList, lenght: newTodoList.length };
+      const completed = newTodoList.filter((t) => t.completed).length;
+      const pending = newTodoList.length - completed;
+
+      return {
+        ...state,
+        todos: newTodoList,
+        lenght: newTodoList.length,
+        completed,
+        pending,
+      };
     }
 
     default:
