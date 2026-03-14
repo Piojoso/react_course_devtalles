@@ -1,3 +1,5 @@
+import * as z from "zod";
+
 interface Todo {
   id: number;
   text: string;
@@ -16,12 +18,28 @@ export type TaskAction =
   | { type: "TOGGLE_TODO"; payload: { id: number } }
   | { type: "REMOVE_TODO"; payload: { id: number } };
 
+const TodoScheme = z.object({
+  id: z.number(),
+  text: z.string(),
+  completed: z.boolean(),
+});
+
+const TaskStateScheme = z.object({
+  todos: z.array(TodoScheme),
+  lenght: z.number(),
+  completed: z.number(),
+  pending: z.number(),
+});
+
 export const getTaskInitialState = (): TaskState => {
   const lsState = localStorage.getItem("tasks-state");
 
   if (lsState) {
-    // ! TAKE CARE: It could have been manipulated
-    return JSON.parse(lsState);
+    const result = TaskStateScheme.safeParse(JSON.parse(lsState));
+
+    if (result.error === undefined) {
+      return result.data;
+    }
   }
 
   return {
