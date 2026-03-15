@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { SkipForward, Play } from "lucide-react";
+import confetti from "canvas-confetti";
 
 const GAME_WORDS = [
   "REACT",
@@ -68,37 +69,84 @@ export const ScrambleWords = () => {
     // Previene el refresh de la página
     e.preventDefault();
 
-    if (guess === currentWord) {
-      setPoints((prev) => prev + 1);
-    } else {
-      setErrorCounter((prev) => prev + 1);
+    // if (guess === currentWord) {
+    //   setPoints((prev) => prev + 1);
+    // } else {
+    //   setErrorCounter((prev) => prev + 1);
 
-      if (errorCounter >= maxAllowErrors) {
-        setIsGameOver(true);
-      }
+    //   if (errorCounter >= maxAllowErrors) {
+    //     setIsGameOver(true);
+    //   }
+    // }
+
+    // setNextWord();
+
+    // setGuess("");
+
+    if (guess === currentWord) {
+      console.log(words[1]);
+      const newWords = words.slice(1);
+
+      confetti({
+        particleCount: 100,
+        spread: 120,
+        origin: { y: 0.6 },
+      });
+
+      setPoints(points + 1);
+      setGuess("");
+      setWords(newWords);
+      setCurrentWord(newWords[0]);
+      setScrambledWord(scrambleWord(newWords[0]));
+
+      return;
     }
 
-    setNextWord();
-
+    setErrorCounter(errorCounter + 1);
     setGuess("");
+
+    if (errorCounter + 1 >= maxAllowErrors) {
+      setIsGameOver(true);
+    }
   };
 
   const handleSkip = () => {
-    setSkipCounter((prev) => prev + 1);
+    // setSkipCounter((prev) => prev + 1);
 
-    setNextWord();
+    // setNextWord();
+
+    if (skipCounter >= maxSkips) return;
+
+    const newWords = words.slice(1);
+
+    setSkipCounter(skipCounter + 1);
+    setWords(newWords);
+    setCurrentWord(newWords[0]);
+    setScrambledWord(scrambleWord(newWords[0]));
+    setGuess("");
   };
 
   const handlePlayAgain = () => {
-    setWords(shuffleArray(GAME_WORDS));
+    // setWords(shuffleArray(GAME_WORDS));
 
-    setCurrentWord(words[0]);
-    scrambleWord(scrambleWord(currentWord));
-    setGuess("");
+    // setCurrentWord(words[0]);
+    // scrambleWord(scrambleWord(currentWord));
+    // setGuess("");
+
+    // setPoints(0);
+    // setErrorCounter(0);
+    // setSkipCounter(0);
+
+    const newArray = shuffleArray(GAME_WORDS);
 
     setPoints(0);
     setErrorCounter(0);
+    setGuess("");
+    setWords(newArray);
+    setCurrentWord(newArray[0]);
+    setIsGameOver(false);
     setSkipCounter(0);
+    setScrambledWord(scrambleWord(newArray[0]));
   };
 
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
