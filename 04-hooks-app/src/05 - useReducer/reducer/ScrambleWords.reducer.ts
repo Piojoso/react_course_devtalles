@@ -41,7 +41,8 @@ type ScrambleWordsActions =
   | { type: "UPDATE_GUESS"; payload: { guessText: string } }
   | { type: "VALIDATE_GUESS" }
   | { type: "SKIP_GUESS" }
-  | { type: "RESTART_GAME" };
+  // | { type: "RESTART_GAME" };
+  | { type: "RESTART_GAME"; payload: ScrambleWordsState };
 
 export const getScrumbleWordsInitialState = (): ScrambleWordsState => {
   const words = shuffleArray(GAME_WORDS);
@@ -135,7 +136,9 @@ export const ScrambleWordsReducer = (
     }
 
     case "RESTART_GAME":
-      return getScrumbleWordsInitialState();
+      // Teacher say this isn't bad perse, but we should avoid it.
+      //   return getScrumbleWordsInitialState();
+      return action.payload;
 
     default:
       return state;

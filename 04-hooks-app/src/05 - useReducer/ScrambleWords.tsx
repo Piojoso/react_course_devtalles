@@ -28,6 +28,7 @@ export const ScrambleWords = () => {
   ] = useReducer(ScrambleWordsReducer, getScrumbleWordsInitialState());
 
   useEffect(() => {
+    if (points === 0) return;
     confetti({
       particleCount: 100,
       spread: 120,
@@ -46,7 +47,8 @@ export const ScrambleWords = () => {
   };
 
   const handlePlayAgain = () => {
-    dispatch({ type: "RESTART_GAME" });
+    // dispatch({ type: "RESTART_GAME" });
+    dispatch({ type: "RESTART_GAME", payload: getScrumbleWordsInitialState() });
   };
 
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
