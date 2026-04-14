@@ -1,10 +1,12 @@
-import { useOptimistic, useState } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 
 interface Comment {
   id: number;
   text: string;
   optimistic?: boolean;
 }
+
+let lastId = 2;
 
 export const InstagromApp = () => {
   const [comments, setComments] = useState<Comment[]>([
@@ -15,26 +17,27 @@ export const InstagromApp = () => {
   const [optimisticComments, addOptimisticComment] = useOptimistic(
     comments,
     (currentComments, newComment: string) => {
+      lastId++;
       return [
         ...currentComments,
-        { id: new Date().getTime(), text: newComment, optimistic: true },
+        { id: lastId, text: newComment, optimistic: true },
       ];
     },
   );
+
+  const [isPending, startTransition] = useTransition();
 
   const handleAddComment = async (formData: FormData) => {
     const postMessage = formData.get("post-message") as string;
 
     addOptimisticComment(postMessage);
 
-    console.log("Nuevo comentario", { postMessage });
+    startTransition(async () => {
+      await new Promise((res) => setTimeout(res, 5000));
 
-    await new Promise((res) => setTimeout(res, 5000));
-
-    setComments((prev) => [
-      ...prev,
-      { id: new Date().getTime(), text: postMessage },
-    ]);
+      lastId++;
+      setComments((prev) => [...prev, { id: lastId, text: postMessage }]);
+    });
   };
 
   return (
@@ -80,7 +83,7 @@ export const InstagromApp = () => {
         />
         <button
           type="submit"
-          disabled={false}
+          disabled={isPending}
           className="bg-blue-500 text-white p-2 rounded-md w-full"
         >
           Enviar
