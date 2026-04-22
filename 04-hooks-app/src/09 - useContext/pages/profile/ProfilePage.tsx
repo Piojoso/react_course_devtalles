@@ -19,7 +19,7 @@ export const ProfilePage = () => {
       <h1 className="text-4xl font-bold">Profile</h1>
       <hr />
 
-      <pre className="my-4 overflow-x-auto ">
+      <pre className="my-4 w-[50%] overflow-x-auto ">
         {JSON.stringify(user, null, 2)}
       </pre>
 
