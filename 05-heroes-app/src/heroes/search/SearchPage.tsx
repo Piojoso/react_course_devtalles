@@ -1,5 +1,14 @@
+import { CustomHeader } from "@/components/custom/CustomHeader";
+
 export const SearchPage = () => {
-  return <div>SearchPage</div>;
+  return (
+    <>
+      <CustomHeader
+        title="Search superheroes"
+        subtitle="Search superheroes or villians"
+      />
+    </>
+  );
 };
 
 export default SearchPage;
