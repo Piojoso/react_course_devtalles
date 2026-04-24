@@ -1,4 +1,5 @@
 import { CustomHeader } from "@/components/custom/CustomHeader";
+import { HeroStats } from "../components/HeroStats";
 
 export const SearchPage = () => {
   return (
@@ -7,6 +8,8 @@ export const SearchPage = () => {
         title="Search superheroes"
         subtitle="Search superheroes or villians"
       />
+
+      <HeroStats />
     </>
   );
 };
