@@ -1,6 +1,13 @@
 import { CustomHeader } from "@/components/custom/CustomHeader";
-import { HeroStats } from "../components/HeroStats";
+
 import { SearchControls } from "./ui/SearchControls";
+import { HeroStats } from "@/heroes/components/HeroStats";
+import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
+
+const breadcrumbPath = [
+  { label: "Home", url: "/" },
+  { label: "Search", url: "/search" },
+];
 
 export const SearchPage = () => {
   return (
@@ -10,6 +17,8 @@ export const SearchPage = () => {
         title="Search superheroes"
         subtitle="Search superheroes or villians"
       />
+
+      <CustomBreadcrumbs steps={breadcrumbPath} />
 
       {/* Stats Dashboard */}
       <HeroStats />

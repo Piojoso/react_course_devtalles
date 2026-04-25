@@ -1,9 +1,10 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CustomHeader } from "@/components/custom/CustomHeader";
-import { HeroStats } from "../components/HeroStats";
-import { HeroGrid } from "../components/HeroGrid";
 import { useState } from "react";
 import { CustomPagination } from "@/components/custom/CustomPagination";
+import { HeroGrid } from "@/heroes/components/HeroGrid";
+import { HeroStats } from "@/heroes/components/HeroStats";
+import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
 
 type TabsType = "all" | "favorites" | "heroes" | "villains";
 
@@ -17,6 +18,8 @@ export const HomePage = () => {
         title="Superhero Universe"
         subtitle="Discover, explore, and manage your favorite superheroes and villains"
       />
+
+      <CustomBreadcrumbs steps={[{ label: "Home", url: "/" }]} />
 
       {/* Stats Dashboard */}
       <HeroStats />
