@@ -5,11 +5,16 @@ import { CustomPagination } from "@/components/custom/CustomPagination";
 import { HeroGrid } from "@/heroes/components/HeroGrid";
 import { HeroStats } from "@/heroes/components/HeroStats";
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
+import { getHeroesByPage } from "@/heroes/actions/get-heroes-by-page.action";
 
 type TabsType = "all" | "favorites" | "heroes" | "villains";
 
 export const HomePage = () => {
   const [activeTab, setActiveTab] = useState<TabsType>("all");
+
+  // useEffect(() => {
+  //   getHeroesByPage().then((heroes) => console.log({ heroes }));
+  // }, []);
 
   return (
     <>
