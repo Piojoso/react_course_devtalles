@@ -2,7 +2,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CustomHeader } from "@/components/custom/CustomHeader";
 import { useState } from "react";
 import { CustomPagination } from "@/components/custom/CustomPagination";
-import { HeroGrid } from "@/heroes/components/HeroGrid";
+import { HeroesGrid } from "@/heroes/components/HeroGrid";
 import { HeroStats } from "@/heroes/components/HeroStats";
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
 import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action";
@@ -13,13 +13,12 @@ type TabsType = "all" | "favorites" | "heroes" | "villains";
 export const HomePage = () => {
   const [activeTab, setActiveTab] = useState<TabsType>("all");
 
-  const { data } = useQuery({
+  const { data: heroesResponse, isLoading: isHeroesLoading } = useQuery({
     queryKey: ["heores"],
     queryFn: () => getHeroesByPageAction(),
     staleTime: 1000 * 60 * 5,
   });
 
-  console.log(data);
   // useEffect(() => {
   //   getHeroesByPageAction().then();
   // }, []);
@@ -63,19 +62,19 @@ export const HomePage = () => {
 
         <TabsContent value="all">
           <h1>All</h1>
-          <HeroGrid />
+          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
         </TabsContent>
         <TabsContent value="favorites">
           <h1>Favorites</h1>
-          <HeroGrid />
+          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
         </TabsContent>
         <TabsContent value="heroes">
           <h1>Heroes</h1>
-          <HeroGrid />
+          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
         </TabsContent>
         <TabsContent value="villains">
           <h1>Villains</h1>
-          <HeroGrid />
+          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
         </TabsContent>
       </Tabs>
 
