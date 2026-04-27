@@ -1,17 +1,20 @@
+import { useQuery } from "@tanstack/react-query";
+import { useSearchParams } from "react-router";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CustomHeader } from "@/components/custom/CustomHeader";
-import { useState } from "react";
 import { CustomPagination } from "@/components/custom/CustomPagination";
 import { HeroesGrid } from "@/heroes/components/HeroGrid";
 import { HeroStats } from "@/heroes/components/HeroStats";
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
 import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action";
-import { useQuery } from "@tanstack/react-query";
 
-type TabsType = "all" | "favorites" | "heroes" | "villains";
+// type TabsType = "all" | "favorites" | "heroes" | "villains";
 
 export const HomePage = () => {
-  const [activeTab, setActiveTab] = useState<TabsType>("all");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const activeTab = searchParams.get("tab") || "all";
 
   const { data: heroesResponse, isLoading: isHeroesLoading } = useQuery({
     queryKey: ["heores"],
@@ -39,22 +42,28 @@ export const HomePage = () => {
       {/* Tabs */}
       <Tabs value={activeTab} className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="all" onClick={() => setActiveTab("all")}>
+          <TabsTrigger
+            value="all"
+            onClick={() => setSearchParams({ tab: "all" })}
+          >
             All Characters (16)
           </TabsTrigger>
           <TabsTrigger
             value="favorites"
-            onClick={() => setActiveTab("favorites")}
+            onClick={() => setSearchParams({ tab: "favorites" })}
             className="flex items-center gap-2"
           >
             Favorites (3)
           </TabsTrigger>
-          <TabsTrigger value="heroes" onClick={() => setActiveTab("heroes")}>
+          <TabsTrigger
+            value="heroes"
+            onClick={() => setSearchParams({ tab: "heroes" })}
+          >
             Heroes (12)
           </TabsTrigger>
           <TabsTrigger
             value="villains"
-            onClick={() => setActiveTab("villains")}
+            onClick={() => setSearchParams({ tab: "villains" })}
           >
             Villains (2)
           </TabsTrigger>
