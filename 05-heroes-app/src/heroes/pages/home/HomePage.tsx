@@ -121,7 +121,7 @@ export const HomePage = () => {
         </TabsContent>
       </Tabs>
 
-      <CustomPagination totalPages={4} />
+      <CustomPagination totalPages={heroesResponse?.pages ?? 1} />
     </>
   );
 };
