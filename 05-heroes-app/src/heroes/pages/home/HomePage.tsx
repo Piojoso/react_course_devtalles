@@ -9,6 +9,7 @@ import { HeroStats } from "@/heroes/components/HeroStats";
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
 import { getHeroesByPageAction } from "@/heroes/actions/get-heroes-by-page.action";
 import { useMemo } from "react";
+import { getHeroesSummaryAction } from "@/heroes/actions/get-heroes-summary.action";
 
 export const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -25,6 +26,12 @@ export const HomePage = () => {
   const { data: heroesResponse, isLoading: isHeroesLoading } = useQuery({
     queryKey: ["heores", { page: pageParam, limit: limitParam }],
     queryFn: () => getHeroesByPageAction(+pageParam, +limitParam),
+    staleTime: 1000 * 60 * 5,
+  });
+
+  const { data: summary } = useQuery({
+    queryKey: ["summary-information"],
+    queryFn: getHeroesSummaryAction,
     staleTime: 1000 * 60 * 5,
   });
 
@@ -57,7 +64,7 @@ export const HomePage = () => {
               })
             }
           >
-            All Characters (16)
+            All Characters ({summary?.totalHeroes})
           </TabsTrigger>
           <TabsTrigger
             value="favorites"
@@ -80,7 +87,7 @@ export const HomePage = () => {
               })
             }
           >
-            Heroes (12)
+            Heroes ({summary?.heroCount})
           </TabsTrigger>
           <TabsTrigger
             value="villains"
@@ -91,7 +98,7 @@ export const HomePage = () => {
               })
             }
           >
-            Villains (2)
+            Villains ({summary?.villainCount})
           </TabsTrigger>
         </TabsList>
 
