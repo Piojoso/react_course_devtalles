@@ -23,7 +23,7 @@ export const HomePage = () => {
   }, [activeTab]);
 
   const { data: heroesResponse, isLoading: isHeroesLoading } = useQuery({
-    queryKey: ["heores"],
+    queryKey: ["heores", { page: pageParam, limit: limitParam }],
     queryFn: () => getHeroesByPageAction(+pageParam, +limitParam),
     staleTime: 1000 * 60 * 5,
   });
