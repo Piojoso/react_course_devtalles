@@ -14,6 +14,8 @@ export const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const activeTab = searchParams.get("tab") || "all";
+  const pageParam = searchParams.get("page") || "1";
+  const limitParam = searchParams.get("limit") || "6";
 
   const selectedTab = useMemo(() => {
     const validTabs = ["all", "favorites", "heroes", "villains"];
@@ -22,7 +24,7 @@ export const HomePage = () => {
 
   const { data: heroesResponse, isLoading: isHeroesLoading } = useQuery({
     queryKey: ["heores"],
-    queryFn: () => getHeroesByPageAction(),
+    queryFn: () => getHeroesByPageAction(+pageParam, +limitParam),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -95,19 +97,27 @@ export const HomePage = () => {
 
         <TabsContent value="all">
           <h1>All</h1>
-          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
+          {!isHeroesLoading && (
+            <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
+          )}
         </TabsContent>
         <TabsContent value="favorites">
           <h1>Favorites</h1>
-          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
+          {!isHeroesLoading && (
+            <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
+          )}
         </TabsContent>
         <TabsContent value="heroes">
           <h1>Heroes</h1>
-          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
+          {!isHeroesLoading && (
+            <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
+          )}
         </TabsContent>
         <TabsContent value="villains">
           <h1>Villains</h1>
-          {!isHeroesLoading && <HeroesGrid heroes={heroesResponse.heroes} />}
+          {!isHeroesLoading && (
+            <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
+          )}
         </TabsContent>
       </Tabs>
 
