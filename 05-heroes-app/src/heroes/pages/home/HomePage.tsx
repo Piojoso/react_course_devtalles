@@ -47,6 +47,7 @@ export const HomePage = () => {
             onClick={() =>
               setSearchParams((prev) => {
                 prev.set("tab", "all");
+                prev.set("page", "1");
                 return prev;
               })
             }
@@ -58,6 +59,8 @@ export const HomePage = () => {
             onClick={() =>
               setSearchParams((prev) => {
                 prev.set("tab", "favorites");
+                prev.set("page", "1");
+
                 return prev;
               })
             }
@@ -70,6 +73,8 @@ export const HomePage = () => {
             onClick={() =>
               setSearchParams((prev) => {
                 prev.set("tab", "heroes");
+                prev.set("page", "1");
+
                 return prev;
               })
             }
@@ -81,6 +86,8 @@ export const HomePage = () => {
             onClick={() =>
               setSearchParams((prev) => {
                 prev.set("tab", "villains");
+                prev.set("page", "1");
+
                 return prev;
               })
             }
