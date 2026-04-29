@@ -14,7 +14,6 @@ export const CustomPagination = ({ totalPages }: Props) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const page = getCastedParam(searchParams.get("page") || "1");
-  const limit = getCastedParam(searchParams.get("limit") || "2");
 
   const handlePageChange = (page: number) => {
     if (page < 1 || page > totalPages) return;

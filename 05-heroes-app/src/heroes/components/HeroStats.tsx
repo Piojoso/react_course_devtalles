@@ -1,16 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { Badge } from "@/components/ui/badge";
 import { Heart, Trophy, Users, Zap } from "lucide-react";
 import { HeroStatCard } from "./HeroStatCard";
-import { getHeroesSummaryAction } from "../actions/get-heroes-summary.action";
+
+import { useHeroesSummary } from "../hooks/useHeroesSummary";
 
 export const HeroStats = () => {
-  const { data: summary } = useQuery({
-    queryKey: ["summary-information"],
-    queryFn: getHeroesSummaryAction,
-    staleTime: 1000 * 60 * 5,
-  });
+  const { data: summary } = useHeroesSummary();
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
