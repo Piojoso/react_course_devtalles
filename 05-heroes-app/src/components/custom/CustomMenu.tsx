@@ -17,7 +17,7 @@ export const CustomMenu = () => {
   };
 
   return (
-    <NavigationMenu>
+    <NavigationMenu className="py-2">
       <NavigationMenuList>
         {/* Menu */}
         <NavigationMenuItem className={cn(isActive("/") && activeLinkClass)}>

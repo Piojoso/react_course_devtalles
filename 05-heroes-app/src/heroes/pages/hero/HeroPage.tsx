@@ -10,11 +10,14 @@ import { Navigate, useParams } from "react-router";
 export function HeroPage() {
   const params = useParams();
   const idSlug = params["idSlug"] ?? "";
+  // also it is valid like next
+  // const { idSlug = '' } = useParams();
 
   const { data: character, isLoading } = useQuery({
     queryKey: ["hero", { idSlug }],
     queryFn: () => getHeroAction({ idSlug }),
     staleTime: 1000 * 60 * 5, // 5 Minutes
+    retry: false,
   });
 
   if (isLoading) {

@@ -97,25 +97,21 @@ export const HomePage = () => {
         </TabsList>
 
         <TabsContent value="all">
-          <h1>All</h1>
           {!isHeroesLoading && (
             <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
           )}
         </TabsContent>
         <TabsContent value="favorites">
-          <h1>Favorites</h1>
           {!isHeroesLoading && (
             <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
           )}
         </TabsContent>
         <TabsContent value="heroes">
-          <h1>Heroes</h1>
           {!isHeroesLoading && (
             <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
           )}
         </TabsContent>
         <TabsContent value="villains">
-          <h1>Villains</h1>
           {!isHeroesLoading && (
             <HeroesGrid heroes={heroesResponse?.heroes ?? []} />
           )}
