@@ -16,6 +16,10 @@ export const FavoriteHeroContext = createContext({} as FavoriteHeroContext);
 export const FavoriteHeroProvider = ({ children }: PropsWithChildren) => {
   const [favorites, setFavorites] = useState<Hero[]>([]);
 
+  const isHeroFavorite = (hero: Hero) => {
+    return favorites.some((h) => h.id === hero.id);
+  };
+
   const toggleFavorite = (hero: Hero) => {
     const heroExist = favorites.find((h) => h.id === hero.id);
 
@@ -30,10 +34,10 @@ export const FavoriteHeroProvider = ({ children }: PropsWithChildren) => {
     <FavoriteHeroContext
       value={{
         // state
-        favorites: [],
-        favoriteCount: 0,
+        favorites,
+        favoriteCount: favorites.length,
         // methods
-        isHeroFavorite: (hero) => true,
+        isHeroFavorite,
         toggleFavorite,
       }}
     >
