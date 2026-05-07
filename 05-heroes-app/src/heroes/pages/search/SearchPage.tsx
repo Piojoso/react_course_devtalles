@@ -3,6 +3,10 @@ import { CustomHeader } from "@/components/custom/CustomHeader";
 import { SearchControls } from "./ui/SearchControls";
 import { HeroStats } from "@/heroes/components/HeroStats";
 import { CustomBreadcrumbs } from "@/components/custom/CustomBreadcrumbs";
+import { useSearchParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { searchHeroesAction } from "@/heroes/actions/search-heroes.action";
+import { HeroesGrid } from "@/heroes/components/HeroGrid";
 
 const breadcrumbPath = [
   { label: "Home", url: "/" },
@@ -10,6 +14,21 @@ const breadcrumbPath = [
 ];
 
 export const SearchPage = () => {
+  const [searchParams] = useSearchParams();
+
+  const nameParam = searchParams.get("name") ?? "";
+
+  const { data: searchHeroesResult, isLoading } = useQuery({
+    queryKey: ["searchResponse", nameParam],
+    queryFn: () => searchHeroesAction({ name: nameParam }),
+    staleTime: 1000 * 60 * 5,
+    retry: false,
+  });
+
+  if (isLoading || !searchHeroesResult) {
+    return <>Loading...</>;
+  }
+
   return (
     <>
       {/* Header */}
@@ -25,6 +44,8 @@ export const SearchPage = () => {
 
       {/* Controls */}
       <SearchControls />
+
+      <HeroesGrid heroes={searchHeroesResult} />
     </>
   );
 };
