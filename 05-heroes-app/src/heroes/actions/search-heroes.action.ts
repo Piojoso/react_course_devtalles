@@ -14,11 +14,18 @@ const HERO_URL = import.meta.env.VITE_API_URL;
 
 export const searchHeroesAction = async ({
   name,
+  team,
+  category,
+  universe,
+  status,
+  strength,
 }: Options): Promise<Hero[]> => {
-  if (!name) return [];
+  if (!name && team && category && universe && status && strength) {
+    return [];
+  }
 
   const { data: heroes } = await heroApi.get<Hero[]>("/search", {
-    params: { name },
+    params: { name, team, category, universe, status, strength },
   });
 
   return heroes.map((hero) => ({

@@ -18,14 +18,14 @@ export const SearchPage = () => {
 
   const nameParam = searchParams.get("name") ?? "";
 
-  const { data: searchHeroesResult, isLoading } = useQuery({
-    queryKey: ["searchResponse", nameParam],
+  const { data: searchHeroesResult = [], isLoading } = useQuery({
+    queryKey: ["searchResponse", { nameParam }],
     queryFn: () => searchHeroesAction({ name: nameParam }),
     staleTime: 1000 * 60 * 5,
     retry: false,
   });
 
-  if (isLoading || !searchHeroesResult) {
+  if (isLoading) {
     return <>Loading...</>;
   }
 
