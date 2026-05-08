@@ -23,7 +23,6 @@
     "noImplicitAny": true,
 
     /* Shadcn */
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }
