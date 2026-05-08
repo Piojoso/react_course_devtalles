@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useSearchParams } from "react-router";
 
 import {
@@ -15,6 +15,8 @@ export const SearchControls = () => {
   const [searchParam, setSearchParam] = useSearchParams();
   const advancedFilterOpen = searchParam.get("filters") === "1";
   const minStrengthFilter = Number(searchParam.get("min-strength") ?? "0");
+
+  const [strenghtValue, setStrenghtValue] = useState([minStrengthFilter]);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -124,13 +126,18 @@ export const SearchControls = () => {
               </div>
               <div className="mt-4">
                 <label className="text-sm font-medium">
-                  Minimum Strength: {minStrengthFilter}/10
+                  Minimum Strength: {strenghtValue}/10
                 </label>
                 <Slider
-                  defaultValue={[minStrengthFilter]}
+                  defaultValue={strenghtValue}
                   max={10}
                   step={1}
-                  onValueChange={(value) => onSliderChange(value)}
+                  onValueChange={(value) =>
+                    setStrenghtValue(
+                      Array.isArray(value) ? [...value] : [value],
+                    )
+                  }
+                  onValueCommitted={(value) => onSliderChange(value)}
                 />
               </div>
             </div>
