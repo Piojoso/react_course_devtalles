@@ -17,10 +17,12 @@ export const SearchPage = () => {
   const [searchParams] = useSearchParams();
 
   const nameParam = searchParams.get("name") ?? "";
+  const strengthParam = searchParams.get("min-strength") ?? "";
 
   const { data: searchHeroesResult = [], isLoading } = useQuery({
-    queryKey: ["searchResponse", { nameParam }],
-    queryFn: () => searchHeroesAction({ name: nameParam }),
+    queryKey: ["searchResponse", { name: nameParam, strength: strengthParam }],
+    queryFn: () =>
+      searchHeroesAction({ name: nameParam, strength: strengthParam }),
     staleTime: 1000 * 60 * 5,
     retry: false,
   });

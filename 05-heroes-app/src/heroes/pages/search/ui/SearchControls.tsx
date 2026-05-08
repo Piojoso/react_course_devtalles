@@ -13,6 +13,9 @@ import { Search, Filter, SortAsc, Grid, Plus } from "lucide-react";
 
 export const SearchControls = () => {
   const [searchParam, setSearchParam] = useSearchParams();
+  const advancedFilterOpen = searchParam.get("filters") === "1";
+  const minStrengthFilter = Number(searchParam.get("min-strength") ?? "0");
+
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onKeyDown = (event: React.KeyboardEvent) => {
@@ -23,6 +26,22 @@ export const SearchControls = () => {
         return prev;
       });
     }
+  };
+
+  const onToggleFilters = () => {
+    setSearchParam((prev) => {
+      prev.get("filters") ? prev.delete("filters") : prev.set("filters", "1");
+
+      return prev;
+    });
+  };
+
+  const onSliderChange = (minStrength: number | readonly number[]) => {
+    setSearchParam((prev) => {
+      prev.set("min-strength", minStrength.toString());
+
+      return prev;
+    });
   };
 
   return (
@@ -42,17 +61,21 @@ export const SearchControls = () => {
 
         {/* Action buttons */}
         <div className="flex gap-2">
-          <Button variant="outline" className="h-12 bg-transparent">
+          <Button
+            variant="outline"
+            className="h-12"
+            onClick={() => onToggleFilters()}
+          >
             <Filter className="h-4 w-4 mr-2" />
             Filters
           </Button>
 
-          <Button variant="outline" className="h-12 bg-transparent">
+          <Button variant="outline" className="h-12">
             <SortAsc className="h-4 w-4 mr-2" />
             Sort by Name
           </Button>
 
-          <Button variant="outline" className="h-12 bg-transparent">
+          <Button variant="outline" className="h-12">
             <Grid className="h-4 w-4" />
           </Button>
 
@@ -65,8 +88,8 @@ export const SearchControls = () => {
 
       {/* Advanced Filters */}
 
-      <Accordion value={["item-1"]}>
-        <AccordionItem value="item-1">
+      <Accordion value={advancedFilterOpen ? ["filters"] : []}>
+        <AccordionItem value="filters">
           <AccordionContent>
             <div className="bg-white rounded-lg p-6 mb-8 shadow-sm border">
               <div className="flex justify-between items-center mb-4">
@@ -101,9 +124,14 @@ export const SearchControls = () => {
               </div>
               <div className="mt-4">
                 <label className="text-sm font-medium">
-                  Minimum Strength: 0/10
+                  Minimum Strength: {minStrengthFilter}/10
                 </label>
-                <Slider defaultValue={[5]} max={10} step={1} />
+                <Slider
+                  defaultValue={[minStrengthFilter]}
+                  max={10}
+                  step={1}
+                  onValueChange={(value) => onSliderChange(value)}
+                />
               </div>
             </div>
           </AccordionContent>
