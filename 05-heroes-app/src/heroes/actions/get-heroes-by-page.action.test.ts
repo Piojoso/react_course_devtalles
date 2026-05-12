@@ -30,15 +30,52 @@ describe("get-heroes-by-page.action.ts", () => {
     });
   });
 
-  test("should heroesApi have been called with offset equal to one when page is not a number", async () => {
+  test("should heroesApi have been called with offset = 0 when page is not a number", async () => {
     const mockedResponse = { total: 10, pages: 1, heroes: [] };
 
     heroesApiMock.onGet("/").reply(200, mockedResponse);
 
     await getHeroesByPageAction("abc" as unknown as number, 6, "all");
 
-    const request = heroesApiMock.history;
+    const params = heroesApiMock.history.get[0].params;
 
-    console.log(request);
+    expect(params).toStrictEqual({
+      limit: expect.any(Number),
+      offset: 0,
+      category: expect.any(String),
+    });
+  });
+
+  test("should heroesApi have been called with limit = 1 when limit is not a number", async () => {
+    // Arrange
+    heroesApiMock.onGet("/").reply(200, { total: 10, pages: 1, heroes: [] });
+
+    // Act
+    await getHeroesByPageAction("abc" as unknown as number, 6, "all");
+    const params = heroesApiMock.history.get[0].params;
+
+    // Assert
+    expect(params).toStrictEqual({
+      limit: 6,
+      offset: expect.any(Number),
+      category: expect.any(String),
+    });
+  });
+
+  test("should heroesApi have been called with correct offset when page is a string number", async () => {
+    // Arrange
+    const limit = 6;
+    const page = "5";
+    heroesApiMock.onGet("/").reply(200, { total: 10, pages: 1, heroes: [] });
+
+    // Act
+    await getHeroesByPageAction(page as unknown as number, limit, "all");
+    const params = heroesApiMock.history.get[0].params;
+
+    expect(params).toStrictEqual({
+      limit: expect.any(Number),
+      offset: (+page - 1) * limit,
+      category: expect.any(String),
+    });
   });
 });
