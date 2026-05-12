@@ -64,4 +64,23 @@ describe("useHeroesSummary.tsx", () => {
     expect(result.current.isError).toBe(false);
     expect(result.current.data).toBeDefined();
   });
+
+  test("should return error state when API call fails", async () => {
+    const mockErrorResponse = new Error("Failed to fetch summary data");
+
+    mockGetHeroesSummaryAction.mockRejectedValue(mockErrorResponse);
+
+    const { result } = renderHook(() => useHeroesSummary(), {
+      wrapper: tanstackCustomProvider(),
+    });
+
+    await waitFor(() => {
+      expect(result.current.isError).toBe(true);
+    });
+
+    expect(result.current.isLoading).toBe(false);
+    expect(result.current.isError).toBe(true);
+    expect(result.current.error).toBeDefined();
+    expect(mockGetHeroesSummaryAction).toHaveBeenCalled();
+  });
 });
