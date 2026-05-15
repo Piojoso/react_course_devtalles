@@ -69,7 +69,14 @@ describe("app.router.tsx", () => {
     render(<RouterProvider router={router} />);
 
     expect(await screen.findByTestId("search-page")).toBeDefined();
-    // expect(heroPageComponent).toBeDefined();
-    // expect(heroPageComponent.innerHTML).toContain(idSlug);
+  });
+
+  test("should redirect to HomePage at unknown path", () => {
+    const router = createMemoryRouter(appRouter.routes, {
+      initialEntries: [`/fake-path`],
+    });
+    render(<RouterProvider router={router} />);
+
+    expect(screen.getByTestId("home-page")).toBeDefined();
   });
 });
