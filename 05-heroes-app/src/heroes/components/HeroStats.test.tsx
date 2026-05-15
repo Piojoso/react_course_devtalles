@@ -4,6 +4,7 @@ import { QueryClient, QueryClientContext } from "@tanstack/react-query";
 import { HeroStats } from "./HeroStats";
 import { useHeroesSummary } from "../hooks/useHeroesSummary";
 import type { SummaryResponse } from "../interfaces/get-heroes-summary.response";
+import { FavoriteHeroProvider } from "../context/FavoriteHeroContext";
 
 const mockedSummaryResponse: SummaryResponse = {
   totalHeroes: 25,
@@ -76,7 +77,9 @@ const renderHeroStats = (mockedData?: Partial<SummaryResponse>) => {
 
   return render(
     <QueryClientContext value={queryClient}>
-      <HeroStats />
+      <FavoriteHeroProvider>
+        <HeroStats />
+      </FavoriteHeroProvider>
     </QueryClientContext>,
   );
 };
@@ -101,5 +104,20 @@ describe("HeroStats.tsx", () => {
     expect(`Strength: ${msr?.strongestHero.strength}/10`).toBeDefined();
     expect(msr.smartestHero.alias).toBeDefined();
     expect(`Intelligence: ${msr?.smartestHero.intelligence}/10`).toBeDefined();
+  });
+
+  test("should change the percentage of favorites when a hero is added to favorites", () => {
+    const favHeroes = [mockedSummaryResponse.smartestHero];
+    const { totalHeroes } = mockedSummaryResponse;
+    localStorage.setItem("favorites", JSON.stringify(favHeroes));
+    renderHeroStats(mockedSummaryResponse);
+
+    const favoritePercentageElement = screen.queryByText("% of total", {
+      exact: false,
+    });
+    const favPercentage = ((favHeroes.length * 100) / totalHeroes).toString();
+
+    expect(favoritePercentageElement).not.toBeNull();
+    expect(favoritePercentageElement?.innerHTML).toContain(favPercentage);
   });
 });
