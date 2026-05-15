@@ -1,10 +1,10 @@
 import { describe, expect, test, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { HomePage } from "./HomePage";
 import { MemoryRouter } from "react-router";
 import { usePaginatedHeroes } from "@/heroes/hooks/usePaginatedHeroes";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import type { useHeroesSummary } from "@/heroes/hooks/useHeroesSummary";
 
 vi.mock("@/heroes/hooks/usePaginatedHeroes");
 const mockedUsePaginatedHeroes = vi.mocked(usePaginatedHeroes);
@@ -13,14 +13,25 @@ mockedUsePaginatedHeroes.mockReturnValue({
   isLoading: false,
 } as unknown as ReturnType<typeof usePaginatedHeroes>);
 
-const queryClient = new QueryClient();
+const mockedUseHeroesSummaryData = {
+  totalHeroes: 25,
+  heroCount: 18,
+  villainCount: 7,
+  strongestHero: { alias: "Superman" },
+  smartestHero: { alias: "Batman" },
+};
+vi.mock("@/heroes/hooks/useHeroesSummary", () => ({
+  useHeroesSummary: () =>
+    ({
+      data: mockedUseHeroesSummaryData,
+      isLoading: false,
+    }) as unknown as ReturnType<typeof useHeroesSummary>,
+}));
 
 const renderHomePage = (initialEntries: string = "") => {
   return render(
     <MemoryRouter initialEntries={[initialEntries]}>
-      <QueryClientProvider client={queryClient}>
-        <HomePage />
-      </QueryClientProvider>
+      <HomePage />
     </MemoryRouter>,
   );
 };
@@ -29,6 +40,45 @@ describe("HomePage.tsx", () => {
   test("should render with default values", () => {
     renderHomePage();
 
-    expect(screen.getByText("Superhero Universe")).toBeDefined();
+    expect(
+      screen.queryByText("All Characters", { exact: false }),
+    ).toBeDefined();
+  });
+
+  test("should call usePaginatedHero with default values", () => {
+    renderHomePage();
+
+    expect(mockedUsePaginatedHeroes).toHaveBeenCalled();
+  });
+
+  test("should render the correct tab when tab params change", () => {
+    renderHomePage("/?tab=heroes");
+
+    const { totalHeroes, heroCount } = mockedUseHeroesSummaryData;
+    const allCharsTabTrigger = screen.getByText(
+      `All Characters (${totalHeroes})`,
+    );
+    const heroTabTrigger = screen.getByText(`Heroes (${heroCount})`);
+
+    expect(allCharsTabTrigger.getAttribute("aria-selected")).toBe("false");
+    expect(heroTabTrigger.getAttribute("aria-selected")).toBe("true");
+  });
+
+  test("should change to new tab when tabTrigger is clicked", () => {
+    const { totalHeroes, heroCount } = mockedUseHeroesSummaryData;
+    renderHomePage();
+
+    const allCharsTabTrigger = screen.getByText(
+      `All Characters (${totalHeroes})`,
+    );
+    const heroTabTrigger = screen.getByText(`Heroes (${heroCount})`);
+
+    expect(allCharsTabTrigger.getAttribute("aria-selected")).toBe("true");
+    expect(heroTabTrigger.getAttribute("aria-selected")).toBe("false");
+
+    fireEvent.click(heroTabTrigger);
+
+    expect(allCharsTabTrigger.getAttribute("aria-selected")).toBe("false");
+    expect(heroTabTrigger.getAttribute("aria-selected")).toBe("true");
   });
 });
