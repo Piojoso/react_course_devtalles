@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 
 import { CustomPagination } from "./CustomPagination";
 import { MemoryRouter } from "react-router";
@@ -58,5 +58,18 @@ describe("CustomPagination.tsx", () => {
 
     expect(otherPageButton.getAttribute("variant")).toBe("ghost");
     expect(pageButton.getAttribute("variant")).toBe("default");
+  });
+
+  test("should change page when page button cliked", () => {
+    renderWithRouter(5, "/?page=3");
+
+    const pageButton = screen.getByText("3");
+    expect(pageButton.getAttribute("variant")).toBe("default");
+
+    const newPageButton = screen.getByText("4");
+    fireEvent.click(newPageButton);
+
+    expect(pageButton.getAttribute("variant")).toBe("ghost");
+    expect(newPageButton.getAttribute("variant")).toBe("default");
   });
 });
