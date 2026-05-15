@@ -12,20 +12,51 @@ vi.mock("@/components/ui/button", () => ({
   ),
 }));
 
-const renderWithRouter = (component: React.ReactElement) => {
-  return render(<MemoryRouter>{component}</MemoryRouter>);
+const renderWithRouter = (
+  totalPages: number = 0,
+  searchParams: string = "",
+) => {
+  return render(
+    <MemoryRouter initialEntries={[searchParams]}>
+      <CustomPagination totalPages={totalPages} />,
+    </MemoryRouter>,
+  );
 };
 
 describe("CustomPagination.tsx", () => {
   test("should render component with default values", () => {
     const mockedTotalPages = 2;
     const totalButtons = mockedTotalPages + 2; // adding previous and next buttons
-    const { container } = renderWithRouter(
-      <CustomPagination totalPages={mockedTotalPages} />,
-    );
+    const { container } = renderWithRouter(mockedTotalPages);
 
     expect(screen.getByText("Previous")).toBeDefined();
     expect(container.querySelectorAll("button").length).toBe(totalButtons);
     expect(screen.getByText("Next")).toBeDefined();
+  });
+
+  test("should desable previous button when page is 1", () => {
+    renderWithRouter(2);
+
+    const previousButton = screen.getByText("Previous");
+
+    expect(previousButton.getAttributeNames()).toContain("disabled");
+  });
+
+  test("should desable next button when we're in the last page", () => {
+    renderWithRouter(2, "/?page=2");
+
+    const nextButton = screen.getByText("Next");
+
+    expect(nextButton.getAttributeNames()).toContain("disabled");
+  });
+
+  test("should desable actual page button", () => {
+    renderWithRouter(5, "/?page=3");
+
+    const otherPageButton = screen.getByText("2");
+    const pageButton = screen.getByText("3");
+
+    expect(otherPageButton.getAttribute("variant")).toBe("ghost");
+    expect(pageButton.getAttribute("variant")).toBe("default");
   });
 });
