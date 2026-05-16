@@ -55,4 +55,38 @@ describe("SearchControls.tsx", () => {
     expect(urlElement.textContent).toBe("?name=Superman");
     expect(inputElement.value).toBe("Superman");
   });
+
+  test("should the filter button, toggle the advance filters", () => {
+    renderSearchControls();
+
+    const filterButtonElement = screen.getByText("Filters");
+    expect(filterButtonElement).toBeDefined();
+
+    const currentUrlText = screen.getByTestId("current-url").textContent;
+    expect(currentUrlText).toBe("");
+
+    fireEvent.click(filterButtonElement);
+    expect(screen.getByTestId("current-url").textContent).toBe("?filters=1");
+
+    fireEvent.click(filterButtonElement);
+    expect(screen.getByTestId("current-url").textContent).toBe("");
+  });
+
+  test("should change params strength when slider changes", () => {
+    renderSearchControls("/?filters=1");
+    const sliderElement = screen.getByRole("group");
+    const inputSliderElement = sliderElement.getElementsByTagName("input")[0];
+
+    expect(inputSliderElement.getAttribute("aria-valuenow")).toBe("0");
+
+    fireEvent.keyDown(inputSliderElement, { key: "ArrowRight" });
+
+    expect(inputSliderElement.getAttribute("aria-valuenow")).toBe("1");
+    expect(screen.getByTestId("current-url").textContent).toContain(
+      "min-strength=1",
+    );
+
+    const filterButtonElement = screen.getByText("Filters");
+    fireEvent.click(filterButtonElement);
+  });
 });
