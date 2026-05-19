@@ -4,7 +4,6 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import { CustomPagination } from "./CustomPagination";
 import { MemoryRouter } from "react-router";
 import type { PropsWithChildren } from "react";
-import type React from "react";
 
 vi.mock("@/components/ui/button", () => ({
   Button: ({ children, ...props }: PropsWithChildren) => (
