@@ -21,7 +21,6 @@ const AdminLayout = () => {
         </main>
       </div>
     </div>
-    // <>Admin Layout</>
   );
 };
 

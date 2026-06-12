@@ -92,7 +92,7 @@ export const CustomHeader = () => {
                 Login
               </Button>
             </Link>
-            <Link to="/admins">
+            <Link to="/admin">
               <Button variant="destructive" size="sm" className="ml-2">
                 Admin
               </Button>

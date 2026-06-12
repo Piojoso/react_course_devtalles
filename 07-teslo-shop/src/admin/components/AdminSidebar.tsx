@@ -26,6 +26,9 @@ const AdminSidebar: React.FC<SidebarProps> = ({ isCollapsed, onToggle }) => {
   ];
 
   const isRouteActive = (to = "") => {
+    if (pathname.includes("/admin/products/") && to === "/admin/products")
+      return true;
+
     return to === pathname;
   };
 
